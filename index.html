@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Valentine 💖</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: #ffe4e1; /* soft pink */
+      font-family: 'Comic Sans MS', cursive;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      color: #ff2e63;
+      font-size: 3rem;
+    }
+
+    .boy {
+      font-size: 120px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 15px 30px;
+      font-size: 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    #yes {
+      background: #ff4d6d;
+      color: white;
+      transition: transform 0.2s;
+    }
+
+    #no {
+      background: #ccc;
+    }
+
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      animation: fall 3s linear infinite;
+    }
+
+    @keyframes fall {
+      from { transform: translateY(-10px) rotate(0); }
+      to { transform: translateY(100vh) rotate(360deg); }
+    }
+
+    .emoji {
+      font-size: 50px;
+      animation: bounce 0.5s infinite alternate;
+    }
+
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to { transform: translateY(-20px); }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- PAGE 1 -->
+  <div class="container" id="page1">
+    <div class="boy">🧎‍♂️🌹</div>
+    <h1>Will you be my Valentine, <span id="herName"></span>?</h1>
+    <button id="yes" onclick="yesClick()">Yes 💖</button>
+    <button id="no" onclick="noClick()">No 🙃</button>
+  </div>
+
+  <!-- PAGE 2 -->
+  <div class="container" id="page2" style="display:none;">
+    <h1>🎉💖 YOU DID IT 💖🎉</h1>
+    <h2>Mannat, you are awesome! 😎😂</h2>
+    <div>
+      <span class="emoji">🧸</span>
+      <span class="emoji">💖</span>
+      <span class="emoji">🎆</span>
+      <span class="emoji">💃</span>
+      <span class="emoji">🕺</span>
+      <span class="emoji">🧸</span>
+      <span class="emoji">🎉</span>
+    </div>
+  </div>
+
+  <script>
+    // Typing effect for her name
+    const herName = "Mannat";
+    const herNameSpan = document.getElementById("herName");
+    let index = 0;
+
+    function typeName() {
+      if(index < herName.length){
+        herNameSpan.innerText += herName.charAt(index);
+        index++;
+        setTimeout(typeName, 200); // 200ms per letter
+      }
+    }
+    typeName();
+
+    let yesScale = 1;
+
+    function noClick() {
+      yesScale += 0.2;
+      // Grow Yes button
+      document.getElementById("yes").style.transform = `scale(${yesScale})`;
+
+      // Move No button randomly
+      const noBtn = document.getElementById("no");
+      const maxX = window.innerWidth - noBtn.offsetWidth;
+      const maxY = window.innerHeight - noBtn.offsetHeight;
+      noBtn.style.position = "absolute";
+      noBtn.style.left = Math.random() * maxX + "px";
+      noBtn.style.top = Math.random() * maxY + "px";
+    }
+
+    function yesClick() {
+      document.getElementById("page1").style.display = "none";
+      document.getElementById("page2").style.display = "flex";
+
+      // Confetti
+      for (let i = 0; i < 120; i++) {
+        let confetti = document.createElement("div");
+        confetti.className = "confetti";
+        confetti.style.left = Math.random() * window.innerWidth + "px";
+        confetti.style.background = `hsl(${Math.random()*360},100%,50%)`;
+        confetti.style.animationDuration = (Math.random()*2+2)+"s";
+        document.body.appendChild(confetti);
+      }
+
+      // Extra emojis falling
+      const emojis = ["🧸","💖","🎆","💃","🕺","🎉"];
+      for(let i=0;i<50;i++){
+        let e = document.createElement("div");
+        e.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+        e.style.position = "absolute";
+        e.style.left = Math.random()*window.innerWidth + "px";
+        e.style.top = Math.random()*window.innerHeight + "px";
+        e.style.fontSize = (20+Math.random()*40) + "px";
+        e.style.animation = `fall ${2+Math.random()*2}s linear infinite`;
+        document.body.appendChild(e);
+      }
+    }
+  </script>
+
+</body>
+</html>
